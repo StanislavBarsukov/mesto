@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Место</title>
+    <link rel="stylesheet" href="./pages/index.css">
+</head>
+<body class="page">
+    <header class="header">
+        <img class="header__logo" src="./images/logo-mesto.svg" alt="logo">
+    </header>
+    <main class="content">
+        <section class="profile">
+            <img class="profile__avatar" src="./images/profile-avatar.jpg" alt="Жак-Ив Кусто">
+            <div class="profile__block">
+                <h1 class="profile__name">Жак-Ив Кусто</h1>
+                <button class="profile__edit" type="button"></button>
+                <p class="profile__job">Исследователь океана</p>
+            </div>
+            <button class="profile__add" type="button"></button>
+        </section>
+        <section class="elements">
+                <ul class="gallery">
+                    <li class="gallery__item">
+                        <img class="gallery__photo" src="./images/gallery-moscow.jpg" alt="Москва">
+                        <div class="gallery__text">
+                            <h2 class="gallery__title">Москва</h2>
+                            <button class="gallery__like gallery__like_active" type="button"></button>
+                        </div>
+                    </li>
+                    <li class="gallery__item">
+                        <img class="gallery__photo" src="./images/gallery-Карачаевск.jpg" alt="Карачаево-Черкесия">
+                        <div class="gallery__text">
+                            <h2 class="gallery__title">Карачаево-Черкесия</h2>
+                            <button class="gallery__like" type="button"></button>
+                        </div>
+                    </li>
+                    <li class="gallery__item">
+                        <img class="gallery__photo" src="./images/gallery-saint-petersburg.jpg" alt="Санкт-Петербург">
+                        <div class="gallery__text">
+                            <h2 class="gallery__title">Санкт-Петербург</h2>
+                            <button class="gallery__like" type="button"></button>
+                        </div>
+                    </li>
+                    <li class="gallery__item">
+                        <img class="gallery__photo" src="./images/gallery-рязань.jpg" alt="Рязань">
+                        <div class="gallery__text">
+                            <h2 class="gallery__title">Рязань</h2>
+                            <button class="gallery__like" type="button"></button>
+                        </div>
+                    </li>
+                    <li class="gallery__item">
+                        <img class="gallery__photo" src="./images/gallery-karelia.jpg" alt="Карелия">
+                        <div class="gallery__text">
+                            <h2 class="gallery__title">Карелия</h2>
+                            <button class="gallery__like" type="button"></button>
+                        </div>
+                    </li>
+                    <li class="gallery__item">
+                        <img class="gallery__photo" src="./images/gallery-ivanovo.jpg" alt="Иваново">
+                        <div class="gallery__text">
+                            <h2 class="gallery__title">Иваново</h2>
+                            <button class="gallery__like" type="button"></button>
+                        </div>
+                    </li>
+                </ul>
+        </section>
+    </main>
+    <footer class="footer">
+        <p class="footer__copyright">&copy;&nbsp;2020 Mesto Russia</p>
+    </footer>
+    <section class="overlay">
+        <form class="popup">
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <label>Текстовое поле ввода имени<input class="popup__name" type="text" value="Жак-Ив Кусто"></label>
+            <label>Текстовое поле ввода описания<input class="popup__description" type="text" value="Исследователь океана"></label>
+            <button class="popup__save">Сохранить</button>
+            <button class="popup__close" type="button"></button>
+        </form>
+    </section>
+    <script type="text/javascript" src="./scrypt/script.js"></script>
+</body>
+</html>
