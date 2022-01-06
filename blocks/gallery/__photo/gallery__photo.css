@@ -1,8 +1,0 @@
-.gallery__photo {
-    object-fit: cover;
-    object-position: center;
-    height: 282px;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-    width: 100%;
-}
