@@ -2,7 +2,7 @@
     background-image: url(../../../images/popup-close.svg);
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #000000;
+    background-color: transparent;
     height: 20px;
     width: 20px;
     position: absolute;
