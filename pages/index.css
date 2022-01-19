@@ -14,17 +14,18 @@
 @import url(../blocks/profile/__name/profile__name.css);
 @import url(../blocks/profile/__job/profile__job.css);
 @import url(../blocks/profile/__edit/profile__edit.css);
-@import url(../blocks/profile/__add/profile__add.css);
+@import url(../blocks/profile/__add-photo/profile__add-photo.css);
 
 @import url(../blocks/elements/elements.css);
 @import url(../blocks/gallery/gallery.css);
 
-@import url(../blocks/cards/cards.css);
-@import url(../blocks/cards/__photo/cards__photo.css);
-@import url(../blocks/cards/__text/cards__text.css);
-@import url(../blocks/cards/__title/cards__title.css);
-@import url(../blocks/cards/__like/cards__like.css);
-/*@import url(../blocks/cards/__like/_active/cards__like_active.css);*/
+@import url(../blocks/card/card.css);
+@import url(../blocks/card/__photo/card__photo.css);
+@import url(../blocks/card/__delete-btn/card__delete-btn.css);
+@import url(../blocks/card/__text/card__text.css);
+@import url(../blocks/card/__title/card__title.css);
+@import url(../blocks/card/__like/card__like.css);
+@import url(../blocks/card/__like/_active/card__like_active.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

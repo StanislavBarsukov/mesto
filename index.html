@@ -19,59 +19,17 @@
                 <button aria-label="Кнопка редактирования профиля" class="profile__edit" type="button"></button>
                 <p class="profile__job">Исследователь океана</p>
             </div>
-            <button aria-label="Кнопка добавления фото" class="profile__add" type="button"></button>
+            <button aria-label="Кнопка добавления фото" class="profile__add-photo" type="button"></button>
         </section>
         <section class="elements">
                 <ul class="gallery">
-                    <li class="cards">
-                        <img class="cards__photo" src="./images/gallery-moscow.jpg" alt="Москва">
-                        <div class="cards__text">
-                            <h2 class="cards__title">Москва</h2>
-                            <button aria-label="Кнопка мне нравится" class="cards__like cards__like_active" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="cards">
-                        <img class="cards__photo" src="./images/gallery-Карачаевск.jpg" alt="Карачаево-Черкесия">
-                        <div class="cards__text">
-                            <h2 class="cards__title">Карачаево-Черкесия</h2>
-                            <button aria-label="Кнопка мне нравится" class="cards__like" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="cards">
-                        <img class="cards__photo" src="./images/gallery-saint-petersburg.jpg" alt="Санкт-Петербург">
-                        <div class="cards__text">
-                            <h2 class="cards__title">Санкт-Петербург</h2>
-                            <button aria-label="Кнопка мне нравится" class="cards__like" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="cards">
-                        <img class="cards__photo" src="./images/gallery-рязань.jpg" alt="Рязань">
-                        <div class="cards__text">
-                            <h2 class="cards__title">Рязань</h2>
-                            <button aria-label="Кнопка мне нравится" class="cards__like" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="cards">
-                        <img class="cards__photo" src="./images/gallery-karelia.jpg" alt="Карелия">
-                        <div class="cards__text">
-                            <h2 class="cards__title">Карелия</h2>
-                            <button aria-label="Кнопка мне нравится" class="cards__like" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="cards">
-                        <img class="cards__photo" src="./images/gallery-ivanovo.jpg" alt="Иваново">
-                        <div class="cards__text">
-                            <h2 class="cards__title">Иваново</h2>
-                            <button aria-label="Кнопка мне нравится" class="cards__like" type="button"></button>
-                        </div>
-                    </li>
                 </ul>
         </section>
     </main>
     <footer class="footer">
         <p class="footer__copyright">&copy;&nbsp;2020 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup" id="popup-profile">
         <div class="popup__container">
             <h2 class="popup__title">Редактировать профиль</h2>
             <form method="get" name="popup" class="popup__form">
@@ -79,9 +37,30 @@
                 <input  aria-label="Поле ввода описания" class="popup__line" id="job-form" type="text">
                 <button aria-label="Кнопка сохранить" class="popup__save">Сохранить</button>
             </form>
-            <button aria-label="Кнопка закрыть" class="popup__close" type="button"></button>
+            <button aria-label="Кнопка закрыть" class="popup__close" id="close-profile" type="button"></button>
         </div>
     </div>
-    <script src="./scrypt/script.js"></script>
+    <div class="popup" id="popup-photo">
+        <div class="popup__container">
+            <h2 class="popup__title">Новое место</h2>
+            <form method="get" name="popup" class="popup__form">
+                <input aria-label="Поле ввода названия места" class="popup__line" id="name-place" placeholder="Название" type="text">
+                <input  aria-label="Поле ввода ссылки на картинку" class="popup__line" id="name-link" placeholder="Ссылка на картинку" type="text">
+                <button aria-label="Кнопка создать новое фото" class="popup__save" id="save-photo">Создать</button>
+            </form>
+            <button aria-label="Кнопка закрыть" class="popup__close" id="close-photo" type="button"></button>
+        </div>
+    </div>
+    <template id="card-template">
+        <li class="card">
+            <button aria-label="Кнопка удалить фото" class="card__delete-btn" type="button"></button>
+            <img class="card__photo" src="" alt="Красивая каринка">
+            <div class="card__text">
+                <h2 class="card__title"></h2>
+                <button aria-label="Кнопка мне нравится" class="card__like" type="button"></button>
+            </div>
+        </li>
+    </template>
+    <script src="./scrypt/index.js"></script>
 </body>
 </html>
