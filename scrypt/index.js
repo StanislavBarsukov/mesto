@@ -76,9 +76,7 @@ const cardTemplate = document.querySelector("#card-template").content;
 const popupPhotoOpen = document.querySelector(".profile__add-photo");
 const popupPhotoClose= document.querySelector("#close-photo");
 const popupPhoto = document.querySelector("#popup-photo");
-const photoName = document.querySelector("#name-place");
-const photoLink = document.querySelector("#name-link");
-const photoCont = document.querySelector("#photo-container");
+
 
 function closePhoto(){
     popupPhoto.classList.remove(popupOpen);
@@ -90,17 +88,18 @@ popupPhotoOpen.addEventListener("click", openPhoto);
 popupPhotoClose.addEventListener("click",closePhoto);
 
 initialCards.forEach(function(element) {
-    const cardElement = cardTemplate.cloneNode(true);
+    let cardElement = cardTemplate.cloneNode(true);
     cardElement.querySelector(".card__title").textContent = element.name
     cardElement.querySelector(".card__photo").src = element.link
     cardElement.querySelector(".card__like").addEventListener("click", function (e) {
         e.target.classList.toggle("card__like_active");
     });
-    cardElement.querySelector(".card__delete-btn").addEventListener('click', function () {
-    const cardItem =  document.querySelectorAll('.card');
-    for (let i = 0; i < cardItem.length; i--) {
-        cardItem[i].remove()
-    }
-        });
     cardContainer.append(cardElement)
 });
+
+const deleteCard = document.querySelectorAll(".card");
+deleteCard.forEach(card => card.addEventListener("click", removeCard));
+function removeCard(){
+    let card = this;
+    card.remove();
+}
