@@ -73,8 +73,20 @@ const initialCards = [
 const popupPhotoOpen = document.querySelector(".profile__add-photo");
 const popupPhotoClose= document.querySelector("#close-photo");
 const popupPhoto = document.querySelector("#popup-photo");
-const photoInput = document.querySelector("#name-place")
-const linkInput = document.querySelector("#name-link")
+const nameInput = document.querySelector("#name-place");
+const linkInput = document.querySelector("#name-link");
+
+const handlerOpenPhoto = (e) =>{
+    e.preventDefault()
+    popupPhoto.classList.add(popupOpen);
+}
+popupPhotoOpen.addEventListener("click", handlerOpenPhoto);
+
+const  handlerClosePhoto = (e) =>{
+    e.preventDefault()
+    popupPhoto.classList.remove(popupOpen);
+}
+popupPhotoClose.addEventListener("click",handlerClosePhoto);
 //Переменные
 const cardContainer = document.querySelector(".gallery");
 const cardTemplate = document.querySelector("#card-template")
@@ -82,9 +94,9 @@ const cardTemplate = document.querySelector("#card-template")
 
 
 
-const renderCard = (item) =>{
+const renderCard = (item, photo) =>{
     const card = cardTemplate.cloneNode(true);
-    const cardPhoto= card.querySelector(".card__photo");
+    const cardPhoto = card.querySelector(".card__photo");
     const cardTitle = card.querySelector(".card__title");
     const cardLikeButton = card.querySelector(".card__like");
     const cardDeleteButton = card.querySelector(".card__delete-btn");
@@ -92,7 +104,7 @@ const renderCard = (item) =>{
     cardTitle.textContent = item.title;
     cardLikeButton.addEventListener("click",handelLikeButton);
     cardDeleteButton.addEventListener("click",handelDeleteButton);
-    cardContainer.append(card);
+    photo.prepend(card);
 }
 const handelLikeButton = (e) =>{
     e.target.classList.toggle("card__like_active");
@@ -100,11 +112,21 @@ const handelLikeButton = (e) =>{
 const handelDeleteButton = (e) => {
     e.target.closest(".card").remove();
 }
+const handlerPhotoFormSubmit = (e) => {
+    e.preventDefault()
+    const newCard = {
+        link: linkInput.value,
+        title: nameInput.value
+    }
+    popupPhoto.classList.remove(popupOpen);
+   renderCard(newCard,cardContainer);
+}
+
 initialCards.forEach(item => {
     renderCard(item, cardContainer)
 });
 
-
+popupPhoto.addEventListener("submit",handlerPhotoFormSubmit);
 
 
 
