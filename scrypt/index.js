@@ -43,63 +43,74 @@ document.addEventListener("mousedown", function (event){
 });
 
 // Добавление фото в разметку
-
 const initialCards = [
-  {
-      name: "Архыз",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg"
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg"
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg"
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg"
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg"
-  }
+    {
+        title: "Архыз",
+        link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"
+    },
+    {
+        title: "Челябинская область",
+        link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg"
+    },
+    {
+        title: "Иваново",
+        link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg"
+    },
+    {
+        title: "Камчатка",
+        link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg"
+    },
+    {
+        title: "Холмогорский район",
+        link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg"
+    },
+    {
+        title: "Байкал",
+        link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg"
+    }
 ];
-
-const cardContainer = document.querySelector(".gallery");
-const cardTemplate = document.querySelector("#card-template").content;
+//
 const popupPhotoOpen = document.querySelector(".profile__add-photo");
 const popupPhotoClose= document.querySelector("#close-photo");
 const popupPhoto = document.querySelector("#popup-photo");
+const photoInput = document.querySelector("#name-place")
+const linkInput = document.querySelector("#name-link")
+//Переменные
+const cardContainer = document.querySelector(".gallery");
+const cardTemplate = document.querySelector("#card-template")
+    .content.querySelector(".card")
 
 
-function closePhoto(){
-    popupPhoto.classList.remove(popupOpen);
+
+const renderCard = (item) =>{
+    const card = cardTemplate.cloneNode(true);
+    const cardPhoto= card.querySelector(".card__photo");
+    const cardTitle = card.querySelector(".card__title");
+    const cardLikeButton = card.querySelector(".card__like");
+    const cardDeleteButton = card.querySelector(".card__delete-btn");
+    cardPhoto.src = item.link;
+    cardTitle.textContent = item.title;
+    cardLikeButton.addEventListener("click",handelLikeButton);
+    cardDeleteButton.addEventListener("click",handelDeleteButton);
+    cardContainer.append(card);
 }
-function openPhoto(){
-    popupPhoto.classList.add(popupOpen);
+const handelLikeButton = (e) =>{
+    e.target.classList.toggle("card__like_active");
 }
-popupPhotoOpen.addEventListener("click", openPhoto);
-popupPhotoClose.addEventListener("click",closePhoto);
-
-initialCards.forEach(function(element) {
-    let cardElement = cardTemplate.cloneNode(true);
-    cardElement.querySelector(".card__title").textContent = element.name
-    cardElement.querySelector(".card__photo").src = element.link
-    cardElement.querySelector(".card__like").addEventListener("click", function (e) {
-        e.target.classList.toggle("card__like_active");
-    });
-    cardContainer.append(cardElement)
+const handelDeleteButton = (e) => {
+    e.target.closest(".card").remove();
+}
+initialCards.forEach(item => {
+    renderCard(item, cardContainer)
 });
 
-const deleteCard = document.querySelectorAll(".card");
-deleteCard.forEach(card => card.addEventListener("click", removeCard));
-function removeCard(){
-    let card = this;
-    card.remove();
-}
+
+
+
+
+
+
+
+
+
+
