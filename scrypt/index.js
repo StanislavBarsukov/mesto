@@ -43,6 +43,21 @@ document.addEventListener("mousedown", function (event){
 });
 
 // Добавление фото в разметку
+const popupPhotoOpen = document.querySelector(".profile__add-photo");
+const popupPhotoClose= document.querySelector("#close-photo");
+const popupPhoto = document.querySelector("#popup-photo");
+const nameInput = document.querySelector("#name-place");
+const linkInput = document.querySelector("#name-link");
+const cardContainer = document.querySelector(".gallery");
+const cardTemplate = document.querySelector("#card-template")
+    .content.querySelector(".card")
+
+
+const modalOpen = document.querySelector(".modal");
+const modalClose = document.querySelector(".modal__button");
+const modalActive ="modal_active";
+const imgI = document.querySelector(".modal__container");
+
 const initialCards = [
     {
         title: "Архыз",
@@ -69,42 +84,27 @@ const initialCards = [
         link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg"
     }
 ];
-//
-const popupPhotoOpen = document.querySelector(".profile__add-photo");
-const popupPhotoClose= document.querySelector("#close-photo");
-const popupPhoto = document.querySelector("#popup-photo");
-const nameInput = document.querySelector("#name-place");
-const linkInput = document.querySelector("#name-link");
 
-const handlerOpenPhoto = (e) =>{
-    e.preventDefault()
-    popupPhoto.classList.add(popupOpen);
-}
-popupPhotoOpen.addEventListener("click", handlerOpenPhoto);
-
-const  handlerClosePhoto = (e) =>{
-    e.preventDefault()
-    popupPhoto.classList.remove(popupOpen);
-}
-popupPhotoClose.addEventListener("click",handlerClosePhoto);
-//Переменные
-const cardContainer = document.querySelector(".gallery");
-const cardTemplate = document.querySelector("#card-template")
-    .content.querySelector(".card")
-
-
-
-const renderCard = (item, photo) =>{
+const createCardElement = (item) => {
     const card = cardTemplate.cloneNode(true);
     const cardPhoto = card.querySelector(".card__photo");
     const cardTitle = card.querySelector(".card__title");
     const cardLikeButton = card.querySelector(".card__like");
     const cardDeleteButton = card.querySelector(".card__delete-btn");
+    const cardModalPhoto = card.querySelector(".card__photo");
     cardPhoto.src = item.link;
     cardTitle.textContent = item.title;
+    cardPhoto.alt = item.title;
+    cardModalPhoto.addEventListener("click", handelModalPhoto);
     cardLikeButton.addEventListener("click",handelLikeButton);
     cardDeleteButton.addEventListener("click",handelDeleteButton);
-    photo.prepend(card);
+
+    return card;
+
+}
+const renderCard = (item, photo) => {
+    const card = createCardElement(item)
+    photo.prepend(card)
 }
 const handelLikeButton = (e) =>{
     e.target.classList.toggle("card__like_active");
@@ -119,20 +119,42 @@ const handlerPhotoFormSubmit = (e) => {
         title: nameInput.value
     }
     popupPhoto.classList.remove(popupOpen);
-   renderCard(newCard,cardContainer);
+    renderCard(newCard,cardContainer);
+}
+const handlerCardPhoto = (e) =>{
+    e.preventDefault()
+    linkInput.value = ""
+    nameInput.value = ""
+    popupPhoto.classList.add(popupOpen);
+}
+
+const  handlerClosePhoto = (e) =>{
+    e.preventDefault()
+    popupPhoto.classList.remove(popupOpen);
 }
 
 initialCards.forEach(item => {
     renderCard(item, cardContainer)
 });
 
+function handelModalPhoto(item){
+    item.preventDefault();
+    openPopupModal()
+    if(item.target.nodeName === 'IMG') {
+        imgI.querySelector('.modal__photo').src = item.target.src;
+        imgI.querySelector('.modal__photo').alt = item.target.alt;
+        imgI.querySelector('.modal__title').textContent = item.target.alt;
+
+    }
+}
+const openPopupModal = () => {
+    modalOpen.classList.add(modalActive);
+}
+const closePopupModal = () => {
+    modalOpen.classList.remove(modalActive);
+}
+
+modalClose.addEventListener("click",closePopupModal);
 popupPhoto.addEventListener("submit",handlerPhotoFormSubmit);
-
-
-
-
-
-
-
-
-
+popupPhotoOpen.addEventListener("click", handlerCardPhoto);
+popupPhotoClose.addEventListener("click",handlerClosePhoto);

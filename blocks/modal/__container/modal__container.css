@@ -1,0 +1,10 @@
+.modal__container {
+    position: relative;
+    max-width: 75vw;
+    max-height: 75vh;
+    width: auto;
+    background-color: transparent;
+    box-sizing: border-box;
+    padding: 0;
+
+}
