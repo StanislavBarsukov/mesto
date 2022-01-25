@@ -1,5 +1,5 @@
 .modal__photo {
-    width: 100%;
+    width: 240px;
     height: 299px;
     object-fit: cover;
     object-position: center;
