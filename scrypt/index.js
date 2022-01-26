@@ -1,24 +1,29 @@
 //Объявление переменных Popup Profile
-const popup = document.querySelector("#popup-profile");
-const popupOpen = "popup_active"
-const popupProfile = document.querySelector(".popup__container");
-const profileEdit = document.querySelector(".profile__edit");
-const popupCloseBtn = document.querySelector("#close-profile");
-let profileName = document.querySelector(".profile__name");
-let profileJob = document.querySelector(".profile__job");
-let popupName = document.querySelector("#name-form");
-let popupDescription = document.querySelector("#job-form");
+const profilePopup = document.querySelector(".popup_profile");
+const profileContainer = document.querySelector(".popup__container");
+const profileButtonEdit = document.querySelector(".profile__edit");
+const profileButtonClose = document.querySelector("#close-profile");
+const profileName = document.querySelector(".profile__name");
+const profileJob = document.querySelector(".profile__job");
+const popupName = document.querySelector("#name-form");
+const popupDescription = document.querySelector("#job-form");
+//Объявление переменных Popup view photo
+const modalPopup = document.querySelector(".popup_modal");
+const modalButtonClose = document.querySelector("#delete-modal");
+const modalPhoto = document.querySelector(".popup__photo");
+const modalTitle = document.querySelector(".popup__desc");
 //Объявление переменных Popup Photo
-const popupPhotoOpen = document.querySelector(".profile__add-photo");
-const popupPhotoClose= document.querySelector("#close-photo");
-const popupPhoto = document.querySelector("#popup-photo");
+const photoButtonAdd = document.querySelector(".profile__add-photo");
+const photoButtonClose = document.querySelector("#close-photo");
+const photoPopup = document.querySelector(".popup_photo");
 const nameInput = document.querySelector("#name-place");
 const linkInput = document.querySelector("#name-link");
-//Объявление переменных Popup view photo
-const modalOpen = document.querySelector(".modal");
-const modalClose = document.querySelector(".modal__button");
-const modalActive ="modal_active";
-const modalImg = document.querySelector(".modal__container");
+//Переменные Card Photo
+const cardContainer = document.querySelector(".gallery");
+const cardTemplate = document.querySelector("#card-template")
+    .content.querySelector(".card");
+//
+
 // Массив с фото
 const initialCards = [
     {
@@ -46,29 +51,33 @@ const initialCards = [
         link: "https://images.unsplash.com/photo-1559029884-4e34093db5b7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80"
     }
 ];
-//Переменные Card Photo
-const cardContainer = document.querySelector(".gallery");
-const cardTemplate = document.querySelector("#card-template")
-    .content.querySelector(".card")
-
 // Popup Profile
-function openPopup (evt) {
-    evt.preventDefault();
+function handlerOpenProfile (e) {
+    e.preventDefault();
     popupName.value = profileName.textContent;
     popupDescription.value = profileJob.textContent;
-    popup.classList.add(popupOpen);
+    openPopup(profilePopup);
 }
 
-function closePopup() {
-    popup.classList.remove(popupOpen);
-}
-
-function formSubmitHandler (event) {
-    event.preventDefault();
+function handlerFormSubmitProfile (e) {
+    e.preventDefault();
     profileName.textContent = popupName.value;
     profileJob.textContent = popupDescription.value;
-    popup.classList.remove(popupOpen);
+    closePopup(profilePopup);
 }
+//Открытие Popup
+const openPopup = (item) => {
+    item.classList.add("popup_active");
+    document.addEventListener("keydown", handlerClickEscape);
+    document.addEventListener("click", handlerClickWindow);
+};
+//Закрытие Popup
+const closePopup = (item) => {
+    item.classList.remove("popup_active");
+    document.removeEventListener("keydown", handlerClickEscape);
+    document.removeEventListener("click", handlerClickWindow);
+}
+
 // Добавление фото в разметку
 const createCardElement = (item) => {
     const card = cardTemplate.cloneNode(true);
@@ -80,13 +89,20 @@ const createCardElement = (item) => {
     cardPhoto.src = item.link;
     cardTitle.textContent = item.title;
     cardPhoto.alt = item.title;
-    cardModalPhoto.addEventListener("click", handelModalPhoto);
+    cardModalPhoto.addEventListener("click", () => {
+        handleClickCard(item)
+    });
     cardLikeButton.addEventListener("click",handelLikeButton);
     cardDeleteButton.addEventListener("click",handelDeleteButton);
-
     return card;
 }
 
+const handleClickCard = (item) => {
+    openPopup(modalPopup);
+    modalPhoto.src = item.link;
+    modalPhoto.alt = item.title;
+    modalTitle.textContent = item.title;
+};
 const renderCard = (item, photo) => {
     const card = createCardElement(item)
     photo.prepend(card)
@@ -103,6 +119,7 @@ const handelDeleteButton = (e) => {
 initialCards.forEach(item => {
     renderCard(item, cardContainer)
 });
+
 // Popup Photo
 const handlerPhotoFormSubmit = (e) => {
     e.preventDefault()
@@ -110,55 +127,44 @@ const handlerPhotoFormSubmit = (e) => {
         link: linkInput.value,
         title: nameInput.value
     }
-    popupPhoto.classList.remove(popupOpen);
+    closePopup(photoPopup);
     renderCard(newCard,cardContainer);
 }
 const handlerCardPhoto = (e) =>{
     e.preventDefault()
     linkInput.value = ""
     nameInput.value = ""
-    popupPhoto.classList.add(popupOpen);
+    openPopup(photoPopup);
 }
-//Popup view photo
-function handelModalPhoto(item) {
-    item.preventDefault();
-    openPopupModal()
-    if(item.target.nodeName === 'IMG') {
-        modalImg.querySelector('.modal__photo').src = item.target.src;
-        modalImg.querySelector('.modal__photo').alt = item.target.alt;
-        modalImg.querySelector('.modal__title').textContent = item.target.alt;
+
+//Закрытие Popup
+function handlerClickEscape(e) {
+    const activePopup = document.querySelector(".popup_active");
+    if (activePopup && e.key === "Escape") {
+        closePopup(activePopup);
     }
 }
-
-const  handlerClosePhoto = (e) =>{
-    e.preventDefault()
-    popupPhoto.classList.remove(popupOpen);
-}
-
-//Popup view photo
-const openPopupModal = () => {
-    modalOpen.classList.add(modalActive);
-}
-const closePopupModal = () => {
-    modalOpen.classList.remove(modalActive);
+function handlerClickWindow (e) {
+    const activePopup = document.querySelector(".popup_active");
+    if (activePopup && e.target === activePopup) {
+        closePopup(activePopup);
+    }
 }
 
 //Вызовы функций
-modalClose.addEventListener("click",closePopupModal);
-popupPhoto.addEventListener("submit",handlerPhotoFormSubmit);
-popupPhotoOpen.addEventListener("click", handlerCardPhoto);
-popupPhotoClose.addEventListener("click",handlerClosePhoto);
-popupProfile.addEventListener("submit", formSubmitHandler);
-profileEdit.addEventListener("click", openPopup);
-popupCloseBtn.addEventListener("click", closePopup);
+modalButtonClose.addEventListener("click", () => {
+    closePopup(modalPopup);
+});
+photoPopup.addEventListener("submit",handlerPhotoFormSubmit);
+photoButtonAdd.addEventListener("click", handlerCardPhoto);
+photoButtonClose.addEventListener("click", () => {
+    closePopup(photoPopup);
+});
+profileContainer.addEventListener("submit", handlerFormSubmitProfile);
+profileButtonEdit.addEventListener("click", handlerOpenProfile);
+profileButtonClose.addEventListener("click", () => {
+    closePopup(profilePopup);
+});
 
-document.addEventListener("keydown", function (event){
-    if (event.code === "Escape") {
-        closePopup();
-    }
-});
-document.addEventListener("mousedown", function (event){
-    if (event.target === popup) {
-        closePopup();
-    }
-});
+
+
