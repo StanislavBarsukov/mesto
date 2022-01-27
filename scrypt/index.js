@@ -22,8 +22,6 @@ const linkInput = document.querySelector("#name-link");
 const cardContainer = document.querySelector(".gallery");
 const cardTemplate = document.querySelector("#card-template")
     .content.querySelector(".card");
-//
-
 // Массив с фото
 const initialCards = [
     {
@@ -76,8 +74,7 @@ const closePopup = (item) => {
     item.classList.remove("popup_active");
     document.removeEventListener("keydown", handlerClickEscape);
     document.removeEventListener("click", handlerClickWindow);
-}
-
+};
 // Добавление фото в разметку
 const createCardElement = (item) => {
     const card = cardTemplate.cloneNode(true);
@@ -95,31 +92,29 @@ const createCardElement = (item) => {
     cardLikeButton.addEventListener("click",handelLikeButton);
     cardDeleteButton.addEventListener("click",handelDeleteButton);
     return card;
-}
-
+};
+// View Photo
 const handleClickCard = (item) => {
     openPopup(modalPopup);
     modalPhoto.src = item.link;
     modalPhoto.alt = item.title;
     modalTitle.textContent = item.title;
 };
-const renderCard = (item, photo) => {
+const renderCard = (item, container) => {
     const card = createCardElement(item)
-    photo.prepend(card)
-}
-
+    container.prepend(card)
+};
+//like
 const handelLikeButton = (e) =>{
     e.target.classList.toggle("card__like_active");
-}
-
+};
+//Bin
 const handelDeleteButton = (e) => {
     e.target.closest(".card").remove();
-}
-
+};
 initialCards.forEach(item => {
-    renderCard(item, cardContainer)
+    renderCard(item, cardContainer);
 });
-
 // Popup Photo
 const handlerPhotoFormSubmit = (e) => {
     e.preventDefault()
@@ -129,28 +124,27 @@ const handlerPhotoFormSubmit = (e) => {
     }
     closePopup(photoPopup);
     renderCard(newCard,cardContainer);
-}
+};
+
 const handlerCardPhoto = (e) =>{
     e.preventDefault()
     linkInput.value = ""
     nameInput.value = ""
     openPopup(photoPopup);
-}
-
+};
 //Закрытие Popup
 function handlerClickEscape(e) {
-    const activePopup = document.querySelector(".popup_active");
-    if (activePopup && e.key === "Escape") {
-        closePopup(activePopup);
+    const removePopup = document.querySelector(".popup_active");
+    if (removePopup && e.key === "Escape") {
+        closePopup(removePopup);
     }
 }
 function handlerClickWindow (e) {
-    const activePopup = document.querySelector(".popup_active");
-    if (activePopup && e.target === activePopup) {
-        closePopup(activePopup);
+    const removePopup = document.querySelector(".popup_active");
+    if (removePopup && e.target === removePopup) {
+        closePopup(removePopup);
     }
 }
-
 //Вызовы функций
 modalButtonClose.addEventListener("click", () => {
     closePopup(modalPopup);
