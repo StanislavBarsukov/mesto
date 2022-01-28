@@ -103,6 +103,7 @@ const handleClickCard = (item) => {
 const renderCard = (item, container) => {
     const card = createCardElement(item)
     container.prepend(card)
+    cardContainer.append(card);
 };
 //like
 const handelLikeButton = (e) =>{
