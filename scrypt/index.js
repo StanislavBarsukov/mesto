@@ -100,9 +100,8 @@ const handleClickCard = (item) => {
     modalPhoto.alt = item.title;
     modalTitle.textContent = item.title;
 };
-const renderCard = (item, container) => {
-    const card = createCardElement(item)
-    container.prepend(card)
+const renderCard = (item) => {
+    cardContainer.append(createCardElement(item))
 };
 //like
 const handelLikeButton = (e) =>{
@@ -122,8 +121,8 @@ const handlerPhotoFormSubmit = (e) => {
         link: linkInput.value,
         title: nameInput.value
     }
+    cardContainer.prepend(createCardElement(newCard))
     closePopup(photoPopup);
-    renderCard(newCard,cardContainer);
 };
 
 const handlerCardPhoto = (e) =>{

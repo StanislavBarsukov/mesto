@@ -32,9 +32,27 @@
     <div class="popup popup_profile">
         <div class="popup__container">
             <h2 class="popup__title">Редактировать профиль</h2>
-            <form method="get" name="popup" class="popup__form">
-                <input aria-label="Поле ввода имени" class="popup__line" id="name-form" type="text">
-                <input  aria-label="Поле ввода описания" class="popup__line" id="job-form" type="text">
+            <form method="get" name="popup" class="popup__form" novalidate>
+                <input
+                    aria-label="Поле ввода имени"
+                    class="popup__line"
+                    id="name-form"
+                    type="text"
+                    minlength="2"
+                    maxlength="40"
+                    required
+                />
+                <span id="name-form-error" class="error"></span>
+                <input
+                    aria-label="Поле ввода описания"
+                    class="popup__line"
+                    id="job-form"
+                    type="text"
+                    minlength="2"
+                    maxlength="200"
+                    required
+                />
+                <span id="job-form-error" class="error"></span>
                 <button aria-label="Кнопка сохранить" class="popup__save">Сохранить</button>
             </form>
             <button aria-label="Кнопка закрыть" class="popup__close" id="close-profile" type="button"></button>
@@ -43,9 +61,27 @@
     <div class="popup popup_photo" >
         <div class="popup__container" id="photo-container">
             <h2 class="popup__title">Новое место</h2>
-            <form method="get" name="popup" class="popup__form">
-                <input aria-label="Поле ввода названия места" class="popup__line" id="name-place" placeholder="Название" type="text">
-                <input  aria-label="Поле ввода ссылки на картинку" class="popup__line" id="name-link" placeholder="Ссылка на картинку" type="text">
+            <form method="get" name="popup" class="popup__form" novalidate>
+                <input
+                    aria-label="Поле ввода названия места"
+                    class="popup__line"
+                    id="name-place"
+                    placeholder="Название"
+                    type="text"
+                    minlength="2"
+                    maxlength="30"
+                    required
+                />
+                <span id="name-place-error" class="error"></span>
+                <input
+                    aria-label="Поле ввода ссылки на картинку"
+                    class="popup__line"
+                    id="name-link"
+                    placeholder="Ссылка на картинку"
+                    type="url"
+                    required
+                />
+                <span id="name-link-error" class="error"></span>
                 <button aria-label="Кнопка создать новое фото" class="popup__save" id="save-photo">Создать</button>
             </form>
             <button aria-label="Кнопка закрыть" class="popup__close" id="close-photo" type="button"></button>
@@ -69,5 +105,6 @@
         </div>
     </div>
     <script src="./scrypt/index.js"></script>
+    <script src="./scrypt/validate.js"></script>
 </body>
 </html>
