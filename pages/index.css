@@ -39,7 +39,7 @@
 @import url(../blocks/popup/__line/popup__line.css);
 @import url(../blocks/popup/__line/_error/popup__line_error.css);
 @import url(../blocks/popup/__save/popup__save.css);
-@import url(../blocks/popup/__save/_disabled/popup_save_disabled.css);
+@import url(../blocks/popup/__save/_disabled/popup__save_disabled.css);
 @import url(../blocks/popup/__close/popup__close.css);
 @import url(../blocks/popup/_modal/popup_modal.css);
 @import url(../blocks/popup/__photo/popup__photo.css);
