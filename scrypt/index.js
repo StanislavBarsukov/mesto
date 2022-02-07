@@ -114,9 +114,8 @@ function handlerClickEscape(e) {
 }
 
 function handlerClickWindow (e) {
-    const removePopup = document.querySelector(".popup_active");
-    if (removePopup && e.target === removePopup) {
-        closePopup(removePopup);
+    if (e.target.classList.contains("popup")) {
+        closePopup(e.target);
     }
 }
 //Выключение кнопки save
