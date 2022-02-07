@@ -6,9 +6,10 @@ function enableValidation(data) {
 function addFormListeners(form, config) {
     form.addEventListener("submit", handleSubmit)
     const inputs = [...form.querySelectorAll(config.inputSelector)]
-    inputs.forEach(input => input.addEventListener("input",
-        () => setSubmitButtonState(form, config),
-        () => checkInput(form, input, config)))
+    inputs.forEach(input => input.addEventListener("input", () => {
+        checkInput(form, input, config)
+        setSubmitButtonState(form, config)}))
+
     setSubmitButtonState(form, config)
 }
 
