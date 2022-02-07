@@ -10,8 +10,8 @@ const popupDescription = document.querySelector("#job-form");
 //Объявление переменных Popup view photo
 const modalPopup = document.querySelector(".popup_type_modal");
 const modalButtonClose = document.querySelector("#delete-modal");
-const modalPhoto = document.querySelector(".popup__photo");
-const modalTitle = document.querySelector(".popup__desc");
+const modalPhoto = document.querySelector(".modal__photo");
+const modalTitle = document.querySelector(".modal__desc");
 //Объявление переменных Popup Photo
 const photoButtonAdd = document.querySelector(".profile__add-photo");
 const photoButtonClose = document.querySelector("#close-photo");

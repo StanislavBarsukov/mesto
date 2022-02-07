@@ -1,19 +1,21 @@
-.popup__photo {
+.modal__photo {
     width: 240px;
     height: 299px;
     object-fit: cover;
     object-position: center;
+    max-width: 75vw;
+    max-height: 75vh;
 
 }
 @media screen and (min-width: 700px) {
-    .popup__photo {
+    .modal__photo {
         width: 433px;
         height: 540px;
     }
 }
 
 @media screen and (min-width: 1024px) {
-    .popup__photo {
+    .modal__photo {
         width: 816px;
         height: 540px;
     }
