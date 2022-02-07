@@ -1,5 +1,5 @@
 //Объявление переменных Popup Profile
-const profilePopup = document.querySelector(".popup_profile");
+const profilePopup = document.querySelector(".popup_type_profile");
 const profileContainer = document.querySelector(".popup__container");
 const profileButtonEdit = document.querySelector(".profile__edit");
 const profileButtonClose = document.querySelector("#close-profile");
@@ -8,14 +8,14 @@ const profileJob = document.querySelector(".profile__job");
 const popupName = document.querySelector("#name-form");
 const popupDescription = document.querySelector("#job-form");
 //Объявление переменных Popup view photo
-const modalPopup = document.querySelector(".popup_modal");
+const modalPopup = document.querySelector(".popup_type_modal");
 const modalButtonClose = document.querySelector("#delete-modal");
 const modalPhoto = document.querySelector(".popup__photo");
 const modalTitle = document.querySelector(".popup__desc");
 //Объявление переменных Popup Photo
 const photoButtonAdd = document.querySelector(".profile__add-photo");
 const photoButtonClose = document.querySelector("#close-photo");
-const photoPopup = document.querySelector(".popup_photo");
+const photoPopup = document.querySelector(".popup_type_photo");
 const nameInput = document.querySelector("#name-place");
 const linkInput = document.querySelector("#name-link");
 //Переменные Card Photo
