@@ -103,6 +103,7 @@ const handlerCardPhoto = (e) =>{
     e.preventDefault()
     linkInput.value = ""
     nameInput.value = ""
+    disabledButton()
     openPopup(photoPopup);
 };
 //Закрытие Popup
@@ -118,12 +119,6 @@ function handlerClickWindow (e) {
         closePopup(e.target);
     }
 }
-//Выключение кнопки save
-const disabledButton = () => {
-    const buttonAdd = document.querySelector('#save-photo')
-    buttonAdd.classList.add('popup__save_disabled')
-    buttonAdd.disabled = true
-};
 //Вызовы функций
 modalButtonClose.addEventListener("click", () => {
     closePopup(modalPopup);

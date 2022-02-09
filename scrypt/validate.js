@@ -40,7 +40,13 @@ function setSubmitButtonState(form, config) {
     button.disabled = !form.checkValidity()
     button.classList.toggle(config.submitButtonErrorClass, !form.checkValidity())
 }
-
+const disabledButton = () => {
+    const buttons = document.querySelectorAll('.popup__save')
+    buttons.forEach( button => {
+        button.classList.add('popup__save_disabled')
+        button.setAttribute('disabled', 'true')
+    });
+};
 function handleSubmit(e) {
     e.preventDefault()
 }
