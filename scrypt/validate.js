@@ -3,8 +3,16 @@ function enableValidation(data) {
     forms.forEach(form => addFormListeners(form, data))
 }
 
+function initForm(form, config) {
+    const inputs = [...form.querySelectorAll(config.inputSelector)]
+    inputs.forEach(input => hideError(form, input, config))
+    setSubmitButtonState(form, config)
+}
 function addFormListeners(form, config) {
     form.addEventListener("submit", handleSubmit)
+    form.addEventListener("reset", () => {
+        initForm(form, config);
+    })
     const inputs = [...form.querySelectorAll(config.inputSelector)]
     inputs.forEach(input => input.addEventListener("input", () => {
         checkInput(form, input, config)
@@ -40,13 +48,7 @@ function setSubmitButtonState(form, config) {
     button.disabled = !form.checkValidity()
     button.classList.toggle(config.submitButtonErrorClass, !form.checkValidity())
 }
-const disabledButton = () => {
-    const buttons = document.querySelectorAll('.popup__save')
-    buttons.forEach( button => {
-        button.classList.add('popup__save_disabled')
-        button.setAttribute('disabled', 'true')
-    });
-};
+
 function handleSubmit(e) {
     e.preventDefault()
 }

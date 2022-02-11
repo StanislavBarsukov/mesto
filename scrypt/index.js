@@ -41,6 +41,7 @@ const openPopup = (item) => {
     item.classList.add("popup_active");
     document.addEventListener("keydown", handlerClickEscape);
     document.addEventListener("click", handlerClickWindow);
+    item.querySelector('form').reset();
 };
 //Закрытие Popup
 const closePopup = (item) => {
@@ -94,7 +95,6 @@ const handlerPhotoFormSubmit = (e) => {
         link: linkInput.value,
         title: nameInput.value
     }
-    disabledButton()
     cardContainer.prepend(createCardElement(newCard))
     closePopup(photoPopup);
 };
@@ -103,7 +103,6 @@ const handlerCardPhoto = (e) =>{
     e.preventDefault()
     linkInput.value = ""
     nameInput.value = ""
-    disabledButton()
     openPopup(photoPopup);
 };
 //Закрытие Popup
