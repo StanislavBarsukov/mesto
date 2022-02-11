@@ -36,12 +36,16 @@ function handlerFormSubmitProfile (e) {
     profileJob.textContent = popupDescription.value;
     closePopup(profilePopup);
 }
+// Удаляем ошибки без сохранения валидации
+const resetFormInput = (item) => {
+    item.querySelector('form').reset();
+};
+
 //Открытие Popup
 const openPopup = (item) => {
     item.classList.add("popup_active");
     document.addEventListener("keydown", handlerClickEscape);
     document.addEventListener("click", handlerClickWindow);
-    item.querySelector('form').reset();
 };
 //Закрытие Popup
 const closePopup = (item) => {
@@ -103,7 +107,8 @@ const handlerCardPhoto = (e) =>{
     e.preventDefault()
     linkInput.value = ""
     nameInput.value = ""
-    openPopup(photoPopup);
+    openPopup(photoPopup)
+    resetFormInput(photoPopup)
 };
 //Закрытие Popup
 function handlerClickEscape(e) {
@@ -131,6 +136,7 @@ profileContainer.addEventListener("submit", handlerFormSubmitProfile);
 profileButtonEdit.addEventListener("click", handlerOpenProfile);
 profileButtonClose.addEventListener("click", () => {
     closePopup(profilePopup);
+    resetFormInput(profilePopup);
 });
 
 
