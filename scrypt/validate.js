@@ -1,4 +1,12 @@
-import {formsValidationConfig} from "./const";
+const formsValidationConfig = {
+    formSelector: ".popup__form",
+    inputSelector: ".popup__line",
+    inputErrorClass: "popup__line_error",
+    errorClassActive: "error_active",
+    submitButtonSelector: ".popup__save",
+    submitButtonErrorClass: "popup__save_disabled"
+}
+
 function enableValidation(data) {
     const forms = [...document.querySelectorAll(data.formSelector)]
     forms.forEach(form => addFormListeners(form, data))
@@ -55,5 +63,4 @@ function handleSubmit(e) {
 }
 
 enableValidation(formsValidationConfig)
-
 
