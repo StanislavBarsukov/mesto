@@ -1,11 +1,4 @@
-const formsValidationConfig = {
-    formSelector: ".popup__form",
-    inputSelector: ".popup__line",
-    inputErrorClass: "popup__line_error",
-    errorClassActive: "error_active",
-    submitButtonSelector: ".popup__save",
-    submitButtonErrorClass: "popup__save_disabled"
-}
+import {formsValidationConfig} from "./const.js";
 
 function enableValidation(data) {
     const forms = [...document.querySelectorAll(data.formSelector)]

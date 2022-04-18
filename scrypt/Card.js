@@ -1,9 +1,9 @@
 class Card {
-    constructor(data, cardSelector, showPhoto) {
-        this._name = data.name
-        this._link = data.link
-        this._cardSelector = cardSelector
-        this._showPhoto = showPhoto
+    constructor(data, cardSelector, handleShowPhoto) {
+        this._name = data.name;
+        this._link = data.link;
+        this._cardSelector = cardSelector;
+        this._handleShowPhoto =  handleShowPhoto;
     }
     _getTemplate() {
         const cardElement = document
@@ -28,7 +28,7 @@ class Card {
             this._handleCardRemove();
         });
         this._element.querySelector(".card__photo").addEventListener('click', () => {
-            this._showPhoto();
+            this._handleShowPhoto();
         });
     }
     generateCard() {
@@ -41,3 +41,4 @@ class Card {
     }
 }
 export default Card
+

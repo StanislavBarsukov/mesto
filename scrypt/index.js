@@ -1,31 +1,5 @@
 import Card from "./Card.js";
-const initialCards = [
-    {
-        name: "Пенза",
-        link: "https://images.unsplash.com/photo-1605901736397-bbef565f967c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-    },
-    {
-        name: "Владивосток",
-        link: "https://images.unsplash.com/photo-1529111017668-af85a7fc9bab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=888&q=80"
-    },
-    {
-        name: "Кисловодск",
-        link: "https://images.unsplash.com/photo-1638723973818-6e5109bb9ed9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1828&q=80"
-    },
-    {
-        name: "Москва",
-        link: "https://images.unsplash.com/photo-1531168738274-aa9955d5033f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-    },
-    {
-        name: "Санкт-Петербург",
-        link: "https://images.unsplash.com/photo-1551709076-89f2499d383b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-    },
-    {
-        name: "Карелия",
-        link: "https://images.unsplash.com/photo-1559029884-4e34093db5b7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80"
-    }
-];
-
+import {initialCards} from "./const.js";
 //Объявление переменных Popup Profile
 const profilePopup = document.querySelector(".popup_type_profile");
 const profileContainer = document.querySelector(".popup__container");
@@ -36,8 +10,8 @@ const profileJob = document.querySelector(".profile__job");
 const popupName = document.querySelector("#name-form");
 const popupDescription = document.querySelector("#job-form");
 //Объявление переменных Popup view photo
-const modalPopup = document.querySelector(".popup_type_modal");
 const modalButtonClose = document.querySelector("#delete-modal");
+const modalPopup = document.querySelector(".popup_type_modal");
 const modalPhoto = document.querySelector(".modal__photo");
 const modalTitle = document.querySelector(".modal__desc");
 //Объявление переменных Popup Photo
@@ -49,6 +23,22 @@ const linkInput = document.querySelector("#name-link");
 //Переменные Card Photo
 const cardContainer = document.querySelector(".gallery");
 
+function addCard(item) {
+    const card = new Card(item, "#card-template", handleShowPhoto);
+    return card.generateCard();
+}
+
+initialCards.forEach(item => {
+    const cardElement = addCard(item);
+    cardContainer.append(cardElement);
+});
+
+function handleShowPhoto() {
+    modalPhoto.src = this._link;
+    modalPhoto.alt = this._name;
+    modalTitle.textContent = this._name;
+    openPopup(modalPopup);
+}
 // Popup Profile
 function handlerOpenProfile (e) {
     e.preventDefault();
@@ -69,7 +59,7 @@ const resetFormInput = (item) => {
 };
 
 //Открытие Popup
-const openPopup = (item) => {
+export const openPopup = (item) => {
     item.classList.add("popup_active");
     document.addEventListener("keydown", handlerClickEscape);
     document.addEventListener("click", handlerClickWindow);
@@ -80,28 +70,15 @@ const closePopup = (item) => {
     document.removeEventListener("keydown", handlerClickEscape);
     document.removeEventListener("click", handlerClickWindow);
 };
-
-
-function showPhoto() {
-    modalPhoto.src = this._link;
-    modalPhoto.alt = this._name;
-    modalTitle.textContent = this._name;
-    openPopup(modalPopup);
-}
-
-initialCards.forEach(item => {
-    const card = new Card(item, "#card-template");
-    const cardElement = card.generateCard();
-    cardContainer.append(cardElement);
-});
 // Popup Photo
 const handlerPhotoFormSubmit = (e) => {
     e.preventDefault()
-    const newCard = {
+    const item = {
         link: linkInput.value,
-        title: nameInput.value
+        name: nameInput.value
     }
-    cardContainer.prepend(createCardElement(newCard))
+    const newCard = addCard(item);
+    cardContainer.prepend(newCard);
     closePopup(photoPopup);
 };
 
@@ -129,6 +106,7 @@ function handlerClickWindow (e) {
 modalButtonClose.addEventListener("click", () => {
     closePopup(modalPopup);
 });
+
 photoPopup.addEventListener("submit",handlerPhotoFormSubmit);
 photoButtonAdd.addEventListener("click", handlerCardPhoto);
 photoButtonClose.addEventListener("click", () => {
