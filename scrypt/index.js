@@ -1,3 +1,5 @@
+import Card from "./card";
+import {initialCards} from "./const";
 //Объявление переменных Popup Profile
 const profilePopup = document.querySelector(".popup_type_profile");
 const profileContainer = document.querySelector(".popup__container");
@@ -20,8 +22,7 @@ const nameInput = document.querySelector("#name-place");
 const linkInput = document.querySelector("#name-link");
 //Переменные Card Photo
 const cardContainer = document.querySelector(".gallery");
-const cardTemplate = document.querySelector("#card-template")
-    .content.querySelector(".card");
+
 // Popup Profile
 function handlerOpenProfile (e) {
     e.preventDefault();
@@ -53,44 +54,19 @@ const closePopup = (item) => {
     document.removeEventListener("keydown", handlerClickEscape);
     document.removeEventListener("click", handlerClickWindow);
 };
-// Добавление фото в разметку
-const createCardElement = (item) => {
-    const card = cardTemplate.cloneNode(true);
-    const cardPhoto = card.querySelector(".card__photo");
-    const cardTitle = card.querySelector(".card__title");
-    const cardLikeButton = card.querySelector(".card__like");
-    const cardDeleteButton = card.querySelector(".card__delete-btn");
-    const cardModalPhoto = card.querySelector(".card__photo");
-    cardPhoto.src = item.link;
-    cardTitle.textContent = item.title;
-    cardPhoto.alt = item.title;
-    cardModalPhoto.addEventListener("click", () => {
-        handleClickCard(item)
-    });
-    cardLikeButton.addEventListener("click",handelLikeButton);
-    cardDeleteButton.addEventListener("click",handelDeleteButton);
-    return card;
-};
-// View Photo
-const handleClickCard = (item) => {
+
+
+function showPhoto() {
+    modalPhoto.src = this._link;
+    modalPhoto.alt = this._name;
+    modalTitle.textContent = this._name;
     openPopup(modalPopup);
-    modalPhoto.src = item.link;
-    modalPhoto.alt = item.title;
-    modalTitle.textContent = item.title;
-};
-const renderCard = (item) => {
-    cardContainer.append(createCardElement(item))
-};
-//like
-const handelLikeButton = (e) =>{
-    e.target.classList.toggle("card__like_active");
-};
-//Bin
-const handelDeleteButton = (e) => {
-    e.target.closest(".card").remove();
-};
+}
+
 initialCards.forEach(item => {
-    renderCard(item, cardContainer);
+    const card = new Card(item, "#card-template");
+    const cardElement = card.generateCard();
+    cardContainer.append(cardElement);
 });
 // Popup Photo
 const handlerPhotoFormSubmit = (e) => {
@@ -138,6 +114,3 @@ profileButtonClose.addEventListener("click", () => {
     closePopup(profilePopup);
     resetFormInput(profilePopup);
 });
-
-
-

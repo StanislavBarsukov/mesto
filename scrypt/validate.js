@@ -1,3 +1,4 @@
+import {formsValidationConfig} from "./const";
 function enableValidation(data) {
     const forms = [...document.querySelectorAll(data.formSelector)]
     forms.forEach(form => addFormListeners(form, data))
