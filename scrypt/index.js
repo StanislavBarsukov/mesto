@@ -39,6 +39,17 @@ function handleShowPhoto() {
     modalTitle.textContent = this._name;
     openPopup(modalPopup);
 }
+// Popup Photo
+const handlerPhotoFormSubmit = (e) => {
+    e.preventDefault()
+    const item = {
+        link: linkInput.value,
+        name: nameInput.value
+    }
+    const newCard = addCard(item);
+    cardContainer.prepend(newCard);
+    closePopup(photoPopup);
+};
 // Popup Profile
 function handlerOpenProfile (e) {
     e.preventDefault();
@@ -70,18 +81,6 @@ const closePopup = (item) => {
     document.removeEventListener("keydown", handlerClickEscape);
     document.removeEventListener("click", handlerClickWindow);
 };
-// Popup Photo
-const handlerPhotoFormSubmit = (e) => {
-    e.preventDefault()
-    const item = {
-        link: linkInput.value,
-        name: nameInput.value
-    }
-    const newCard = addCard(item);
-    cardContainer.prepend(newCard);
-    closePopup(photoPopup);
-};
-
 const handlerCardPhoto = (e) =>{
     e.preventDefault()
     linkInput.value = ""
