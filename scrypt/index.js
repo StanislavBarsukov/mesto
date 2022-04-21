@@ -1,27 +1,15 @@
 import Card from "./Card.js";
-import {initialCards} from "./const.js";
-//Объявление переменных Popup Profile
-const profilePopup = document.querySelector(".popup_type_profile");
-const profileContainer = document.querySelector(".popup__container");
-const profileButtonEdit = document.querySelector(".profile__edit");
-const profileButtonClose = document.querySelector("#close-profile");
-const profileName = document.querySelector(".profile__name");
-const profileJob = document.querySelector(".profile__job");
-const popupName = document.querySelector("#name-form");
-const popupDescription = document.querySelector("#job-form");
-//Объявление переменных Popup view photo
-const modalButtonClose = document.querySelector("#delete-modal");
-const modalPopup = document.querySelector(".popup_type_modal");
-const modalPhoto = document.querySelector(".modal__photo");
-const modalTitle = document.querySelector(".modal__desc");
-//Объявление переменных Popup Photo
-const photoButtonAdd = document.querySelector(".profile__add-photo");
-const photoButtonClose = document.querySelector("#close-photo");
-const photoPopup = document.querySelector(".popup_type_photo");
-const nameInput = document.querySelector("#name-place");
-const linkInput = document.querySelector("#name-link");
-//Переменные Card Photo
-const cardContainer = document.querySelector(".gallery");
+import {FormValidator} from "./FormValidator.js"
+import {initialCards,config,
+    cardContainer,profilePopup,profileContainer,profileButtonEdit,
+    profileButtonClose,profileName, profileJob,popupName,popupDescription,
+    modalButtonClose, modalPopup,modalPhoto,modalTitle,photoButtonAdd,
+    photoButtonClose,photoPopup,nameInput,linkInput,} from "./const.js";
+//
+const validateProfile = new FormValidator(config,profilePopup);
+const validatePhoto = new FormValidator(config,photoPopup);
+validatePhoto.enableValidation()
+validateProfile.enableValidation();
 
 function addCard(item) {
     const card = new Card(item, "#card-template", handleShowPhoto);
@@ -48,11 +36,13 @@ const handlerPhotoFormSubmit = (e) => {
     }
     const newCard = addCard(item);
     cardContainer.prepend(newCard);
+    validatePhoto.hideValidation()
     closePopup(photoPopup);
 };
 // Popup Profile
 function handlerOpenProfile (e) {
     e.preventDefault();
+    validateProfile.hideValidation()
     popupName.value = profileName.textContent;
     popupDescription.value = profileJob.textContent;
     openPopup(profilePopup);
@@ -64,11 +54,6 @@ function handlerFormSubmitProfile (e) {
     profileJob.textContent = popupDescription.value;
     closePopup(profilePopup);
 }
-// Удаляем ошибки без сохранения валидации
-const resetFormInput = (item) => {
-    item.querySelector('form').reset();
-};
-
 //Открытие Popup
 export const openPopup = (item) => {
     item.classList.add("popup_active");
@@ -85,8 +70,8 @@ const handlerCardPhoto = (e) =>{
     e.preventDefault()
     linkInput.value = ""
     nameInput.value = ""
+    validatePhoto.hideValidation()
     openPopup(photoPopup)
-    resetFormInput(photoPopup)
 };
 //Закрытие Popup
 function handlerClickEscape(e) {
@@ -102,18 +87,16 @@ function handlerClickWindow (e) {
     }
 }
 //Вызовы функций
-modalButtonClose.addEventListener("click", () => {
-    closePopup(modalPopup);
-});
-
 photoPopup.addEventListener("submit",handlerPhotoFormSubmit);
 photoButtonAdd.addEventListener("click", handlerCardPhoto);
-photoButtonClose.addEventListener("click", () => {
-    closePopup(photoPopup);
-});
 profileContainer.addEventListener("submit", handlerFormSubmitProfile);
 profileButtonEdit.addEventListener("click", handlerOpenProfile);
 profileButtonClose.addEventListener("click", () => {
     closePopup(profilePopup);
-    resetFormInput(profilePopup);
+});
+modalButtonClose.addEventListener("click", () => {
+    closePopup(modalPopup);
+});
+photoButtonClose.addEventListener("click", () => {
+    closePopup(photoPopup);
 });
