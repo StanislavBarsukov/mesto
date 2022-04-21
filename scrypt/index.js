@@ -58,7 +58,7 @@ function handlerFormSubmitProfile (e) {
 export const openPopup = (item) => {
     item.classList.add("popup_active");
     document.addEventListener("keydown", handlerClickEscape);
-    document.addEventListener("click", handlerClickWindow);
+    document.addEventListener("mousedown", handlerClickWindow);
 };
 //Закрытие Popup
 const closePopup = (item) => {
@@ -75,8 +75,8 @@ const handlerCardPhoto = (e) =>{
 };
 //Закрытие Popup
 function handlerClickEscape(e) {
-    const removePopup = document.querySelector(".popup_active");
-    if (removePopup && e.key === "Escape") {
+    if (e.key === "Escape") {
+        const removePopup = document.querySelector(".popup_active");
         closePopup(removePopup);
     }
 }
