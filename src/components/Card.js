@@ -30,7 +30,7 @@ class Card {
             this._handleCardRemove();
         });
         this._element.querySelector(".card__photo").addEventListener('click', () => {
-            this._handleShowPhoto();
+            this._handleShowPhoto(this._link, this._name);
         });
     };
 

@@ -1,6 +1,6 @@
 .profile__edit {
     align-self: center;
-    background-image: url(./../../../images/button-edit.svg);
+    background-image: url(../../../images/button-edit.svg);
     width: 18px;
     height: 18px;
     border: 1px solid white;

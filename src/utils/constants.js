@@ -1,20 +1,13 @@
 //Объявление переменных Popup Profile
-export const profilePopup = document.querySelector(".popup_type_profile");
-export const profileContainer = document.querySelector(".popup__container");
+export const profileTypePopup = document.querySelector(".popup_type_profile");
 export const profileButtonEdit = document.querySelector(".profile__edit");
-export const profileButtonClose = document.querySelector("#close-profile");
 export const profileName = document.querySelector(".profile__name");
 export const profileJob = document.querySelector(".profile__job");
-export const popupName = document.querySelector("#name-form");
-export const popupDescription = document.querySelector("#job-form");
+
 //Объявление переменных Popup view photo
-export const modalButtonClose = document.querySelector("#delete-modal");
 export const modalPopup = document.querySelector(".popup_type_modal");
-export const modalPhoto = document.querySelector(".modal__photo");
-export const modalTitle = document.querySelector(".modal__desc");
 //Объявление переменных Popup Photo
 export const photoButtonAdd = document.querySelector(".profile__add-photo");
-export const photoButtonClose = document.querySelector("#close-photo");
 export const photoPopup = document.querySelector(".popup_type_photo");
 export const nameInput = document.querySelector("#name-place");
 export const linkInput = document.querySelector("#name-link");
