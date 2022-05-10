@@ -5,24 +5,32 @@ import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
 import "./index.css"
-import { initialCards,
+import {
+    initialCards,
     config,
     cardContainer,
-    profileTypePopup,
     profileButtonEdit,
     profileName,
     profileJob,
-    modalPopup,
     photoButtonAdd,
     nameInput,
-    linkInput,
-    photoPopup} from "../utils/constants.js";
-const validateProfile = new FormValidator(config,profileTypePopup);
-const validatePhoto = new FormValidator(config,photoPopup);
-const validateModal = new FormValidator(config,modalPopup);
-validatePhoto.enableValidation();
-validateProfile.enableValidation();
-validateModal.enableValidation();
+    infoInput,
+    popupPreviewSelector,
+    popupPhotoSelector,
+    popupProfileSelector
+} from "../utils/constants.js";
+const formValidators = {}
+// Включение валидации
+const enableValidation = (config) => {
+    const formList = Array.from(document.querySelectorAll(config.formSelector))
+    formList.forEach((formElement) => {
+        const validator = new FormValidator(config, formElement)
+        const formName = formElement.getAttribute('name')
+        formValidators[formName] = validator;
+        validator.enableValidation();
+    });
+};
+enableValidation(config)
 
 function addCard(item) {
     const card = new Card(item, "#card-template", handleShowPhoto);
@@ -44,17 +52,17 @@ function handleShowPhoto(link, name) {
     imagePopup.open(link,name)
 }
 
-const profilePopup = new PopupWithForm(profileTypePopup, item => {
+const profilePopup = new PopupWithForm(popupProfileSelector, item => {
     userInfo.setUserInfo(item)
     profilePopup.close()
 });
 
-const addCardPopup = new PopupWithForm(photoPopup,item => {
+const addCardPopup = new PopupWithForm(popupPhotoSelector,item => {
     cardSection.addItem(addCard(item));
     addCardPopup.close()
 });
 
-const imagePopup = new PopupWithImage(modalPopup);
+const imagePopup = new PopupWithImage(popupPreviewSelector);
 
 cardSection.renderItems();
 profilePopup.setEventListeners();
@@ -62,13 +70,14 @@ addCardPopup.setEventListeners();
 imagePopup.setEventListeners();
 
 photoButtonAdd.addEventListener("click", () => {
+    formValidators["popup-photo"].resetValidation()
     addCardPopup.open()
-    validatePhoto.hideValidation()
 });
 
 profileButtonEdit.addEventListener("click", () => {
+    formValidators["popup-profile"].resetValidation()
+    const {name, info} = userInfo.getUserInfo()
+    nameInput.value = name;
+    infoInput.value = info;
     profilePopup.open()
-    validateProfile.hideValidation();
-    linkInput.value = userInfo.getUserInfo().infoElement;
-    nameInput.value = userInfo.getUserInfo().nameElement;
 });

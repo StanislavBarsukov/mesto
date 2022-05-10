@@ -52,7 +52,7 @@ class FormValidator {
             });
         });
     };
-    hideValidation() {
+    resetValidation() {
         this._inputList.forEach((inputElement) => {
             this._hideError(inputElement);
         });

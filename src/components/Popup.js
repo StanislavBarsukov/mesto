@@ -1,6 +1,6 @@
 class Popup {
     constructor(popupSelector) {
-        this._popup = popupSelector;
+        this._popup = document.querySelector(popupSelector);
     }
     _handlerClickEscape = (e) => {
         if (e.key === "Escape") {
@@ -20,7 +20,7 @@ class Popup {
     close() {
         this._popup.classList.remove("popup_active");
         document.removeEventListener("keydown",this._handlerClickEscape);
-        document.removeEventListener("click", this._handlerClickWindow);
+        document.removeEventListener("mousedown", this._handlerClickWindow);
     }
     setEventListeners() {
         this._popup.querySelector(".popup__close").addEventListener("click", () => this.close());
