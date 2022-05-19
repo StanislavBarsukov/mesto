@@ -44,6 +44,9 @@ class Card {
         this._setEventListeners();
         return this._element;
     };
+    deleteCard() {
+        this._element.remove()
+    }
 }
 export default Card
 

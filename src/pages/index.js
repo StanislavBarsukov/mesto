@@ -4,9 +4,10 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
+import PopupWithConform from "../components/PopupWithConform.js";
 import "./index.css"
 import {
-    initialCards,
+    buttonAvatar,
     config,
     cardContainer,
     profileButtonEdit,
@@ -17,10 +18,22 @@ import {
     infoInput,
     popupPreviewSelector,
     popupPhotoSelector,
-    popupProfileSelector
+    popupProfileSelector,
+    avatar,
+    popupAvatarSelector,
+    popupDeleteSelector
 } from "../utils/constants.js";
+import Api from "../components/Api";
+
+const api = new Api({
+    url: 'https://mesto.nomoreparties.co/v1/cohort-41',
+    headers: {
+        authorization: 'edbcfffa-fd7f-40f5-bcf0-f7031d29761f',
+        'Content-Type': 'application/json'
+    }
+});
+
 const formValidators = {}
-// Включение валидации
 const enableValidation = (config) => {
     const formList = Array.from(document.querySelectorAll(config.formSelector))
     formList.forEach((formElement) => {
@@ -32,48 +45,92 @@ const enableValidation = (config) => {
 };
 enableValidation(config)
 
-function addCard(item) {
+function renderCard(item) {
     const card = new Card(item, "#card-template", handleShowPhoto);
     return card.generateCard();
 }
 
 const cardSection = new Section({
-    items: initialCards,
-    renderer: addCard
+    renderer: (item) => {
+        cardSection.addItem(renderCard(item))
+    }
     },
     cardContainer);
 
 const userInfo = new UserInfo({
     nameElement: profileName,
-    infoElement: profileJob
+    infoElement: profileJob,
+    avatarElement:avatar
 });
 
 function handleShowPhoto(link, name) {
     imagePopup.open(link,name)
 }
 
+const popupConform = new PopupWithConform(popupDeleteSelector, item => {
+    api.deleteCard(item)
+        .then(() => {
+            item.deleteCard();
+            popupConform.close();
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+})
+
 const profilePopup = new PopupWithForm(popupProfileSelector, item => {
-    userInfo.setUserInfo(item)
-    profilePopup.close()
-});
+    profilePopup.renderLoading(true)
+    api.getUpdateUser(item)
+        .then((res) => {
+            userInfo.setUserInfo(res)
+            profilePopup.close()
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+            profilePopup.renderLoading(false)
+        })
+})
+profilePopup.setEventListeners();
 
 const addCardPopup = new PopupWithForm(popupPhotoSelector,item => {
-    cardSection.addItem(addCard(item));
-    addCardPopup.close()
+    addCardPopup.renderLoading(true)
+    api.getUpdateCard(item)
+        .then((res) => {
+            cardSection.addItem(renderCard(res));
+            addCardPopup.close()
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+            addCardPopup.renderLoading(false)
+        })
 });
+addCardPopup.setEventListeners();
+
+const avatarPopup = new PopupWithForm (popupAvatarSelector, item => {
+        avatarPopup.renderLoading(true)
+        api.updateAvatar(item)
+            .then((res) => {
+                userInfo.setUserInfo(res)
+                avatarPopup.close();
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+                avatarPopup.renderLoading(false)
+            })
+})
+avatarPopup.setEventListeners()
 
 const imagePopup = new PopupWithImage(popupPreviewSelector);
-
-cardSection.renderItems();
-profilePopup.setEventListeners();
-addCardPopup.setEventListeners();
 imagePopup.setEventListeners();
 
 photoButtonAdd.addEventListener("click", () => {
     formValidators["popup-photo"].resetValidation()
     addCardPopup.open()
 });
-
+buttonAvatar.addEventListener("click", () => {
+    formValidators["popup-avatar"].resetValidation()
+    avatarPopup.open();
+});
 profileButtonEdit.addEventListener("click", () => {
     formValidators["popup-profile"].resetValidation()
     const {name, info} = userInfo.getUserInfo()
@@ -81,3 +138,13 @@ profileButtonEdit.addEventListener("click", () => {
     infoInput.value = info;
     profilePopup.open()
 });
+Promise.all([
+    api.getInitialCards(),
+    api.getInitialUser()
+]).then(res => {
+        userInfo.getUserInfo()
+        cardSection.renderItems(res[0]);
+    })
+    .catch((err) => {
+        console.log(err);
+    });

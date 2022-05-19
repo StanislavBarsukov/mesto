@@ -3,7 +3,10 @@ export const popupProfileSelector = ".popup_type_profile";
 export const profileButtonEdit = document.querySelector(".profile__edit");
 export const profileName = document.querySelector(".profile__name");
 export const profileJob = document.querySelector(".profile__job");
-
+export const avatar = document.querySelector(".popup__line_type_avatar")
+export const popupDeleteSelector = ".popup_type_delete"
+export const popupAvatarSelector = ".popup_type_avatar"
+export const buttonAvatar =document.querySelector(".profile__avatar-button")
 //Объявление переменных Popup view photo
 export const popupPreviewSelector = ".popup_type_modal";
 //Объявление переменных Popup Photo

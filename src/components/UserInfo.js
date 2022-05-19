@@ -1,19 +1,20 @@
 class UserInfo {
-    constructor({nameElement, infoElement}) {
+    constructor({ nameElement, infoElement,avatarElement}) {
         this._nameElement = nameElement;
         this._infoElement = infoElement;
+        this._avatarElement = avatarElement;
     }
 
     getUserInfo() {
         return {
             name: this._nameElement.textContent,
-            info: this._infoElement.textContent
+            info: this._infoElement.textContent,
         }
     }
-
-    setUserInfo({name, info}) {
+    setUserInfo(name, info,avatar) {
         this._nameElement.textContent = name;
         this._infoElement.textContent = info;
+        this._avatarElement.src = avatar;
     }
 }
 export default UserInfo
