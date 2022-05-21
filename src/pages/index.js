@@ -19,7 +19,7 @@ import {
     popupPreviewSelector,
     popupPhotoSelector,
     popupProfileSelector,
-    avatar,
+    avatarProfile,
     popupAvatarSelector,
     popupDeleteSelector
 } from "../utils/constants.js";
@@ -46,7 +46,7 @@ const enableValidation = (config) => {
 enableValidation(config)
 
 function renderCard(item) {
-    const card = new Card(item, "#card-template", handleShowPhoto);
+    const card = new Card(item, "#card-template", handleShowPhoto, handleCardRemove);
     return card.generateCard();
 }
 
@@ -60,13 +60,17 @@ const cardSection = new Section({
 const userInfo = new UserInfo({
     nameElement: profileName,
     infoElement: profileJob,
-    avatarElement:avatar
+    avatarElement: avatarProfile
 });
 
 function handleShowPhoto(link, name) {
     imagePopup.open(link,name)
 }
 
+function handleCardRemove(cardId) {
+    popupConform.setCard(cardId)
+    popupConform.open()
+}
 const popupConform = new PopupWithConform(popupDeleteSelector, item => {
     api.deleteCard(item)
         .then(() => {
@@ -80,7 +84,7 @@ const popupConform = new PopupWithConform(popupDeleteSelector, item => {
 
 const profilePopup = new PopupWithForm(popupProfileSelector, item => {
     profilePopup.renderLoading(true)
-    api.getUpdateUser(item)
+    api.getUpdateUser(item.link)
         .then((res) => {
             userInfo.setUserInfo(res)
             profilePopup.close()
@@ -108,7 +112,7 @@ addCardPopup.setEventListeners();
 
 const avatarPopup = new PopupWithForm (popupAvatarSelector, item => {
         avatarPopup.renderLoading(true)
-        api.updateAvatar(item)
+        api.updateAvatar(item.avatar)
             .then((res) => {
                 userInfo.setUserInfo(res)
                 avatarPopup.close();

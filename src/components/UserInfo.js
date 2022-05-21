@@ -1,5 +1,5 @@
 class UserInfo {
-    constructor({ nameElement, infoElement,avatarElement}) {
+    constructor({ nameElement, infoElement, avatarElement}) {
         this._nameElement = nameElement;
         this._infoElement = infoElement;
         this._avatarElement = avatarElement;
@@ -9,6 +9,7 @@ class UserInfo {
         return {
             name: this._nameElement.textContent,
             info: this._infoElement.textContent,
+            avatar: this._avatarElement.src
         }
     }
     setUserInfo(name, info,avatar) {
