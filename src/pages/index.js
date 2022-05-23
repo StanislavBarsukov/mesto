@@ -34,6 +34,7 @@ const api = new Api({
 });
 
 const formValidators = {}
+const userId = {}
 const enableValidation = (config) => {
     const formList = Array.from(document.querySelectorAll(config.formSelector))
     formList.forEach((formElement) => {
@@ -46,7 +47,25 @@ const enableValidation = (config) => {
 enableValidation(config)
 
 function renderCard(item) {
-    const card = new Card(item, "#card-template", handleShowPhoto, handleCardRemove);
+    const card = new Card({
+        data:item,
+        userId: userId,
+        cardSelector: "#card-template",
+        handleShowPhoto: () => {
+            imagePopup.open(item.link,item.name)
+        },
+        handleCardRemove:() => {
+            api.deleteCard(item._id)
+                .then(() => {
+                    popupConform.open()
+                    card.deleteCard()
+                    popupConform.close()
+                })
+                .catch(err => console.log(err))
+        },
+        handleCardLike: () => {
+        },
+    })
     return card.generateCard();
 }
 
@@ -63,28 +82,12 @@ const userInfo = new UserInfo({
     avatarElement: avatarProfile
 });
 
-function handleShowPhoto(link, name) {
-    imagePopup.open(link,name)
-}
-
-function handleCardRemove(cardId) {
-    popupConform.setCard(cardId)
-    popupConform.open()
-}
-const popupConform = new PopupWithConform(popupDeleteSelector, item => {
-    api.deleteCard(item)
-        .then(() => {
-            item.deleteCard();
-            popupConform.close();
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-})
+const popupConform = new PopupWithConform(popupDeleteSelector)
+popupConform.setEventListeners()
 
 const profilePopup = new PopupWithForm(popupProfileSelector, item => {
     profilePopup.renderLoading(true)
-    api.getUpdateUser(item.link)
+    api.getUpdateUser(item)
         .then((res) => {
             userInfo.setUserInfo(res)
             profilePopup.close()
@@ -137,9 +140,9 @@ buttonAvatar.addEventListener("click", () => {
 });
 profileButtonEdit.addEventListener("click", () => {
     formValidators["popup-profile"].resetValidation()
-    const {name, info} = userInfo.getUserInfo()
+    const {name, about} = userInfo.getUserInfo()
     nameInput.value = name;
-    infoInput.value = info;
+    infoInput.value = about;
     profilePopup.open()
 });
 Promise.all([

@@ -1,9 +1,15 @@
 class Card {
-    constructor(data, cardSelector, handleShowPhoto,) {
+    constructor({data, userId, cardSelector,handleShowPhoto,handleCardRemove,handleCardLike}) {
         this._name = data.name;
         this._link = data.link;
+        this._likes = data.likes;
+        this._id = data._id;
+        this._owner = data.owner;
+        this._userId = userId;
         this._cardSelector = cardSelector;
         this._handleShowPhoto =  handleShowPhoto;
+        this._handleCardRemove = handleCardRemove;
+        this._handleCardLike = handleCardLike;
     };
     _getTemplate() {
         const cardElement = document
@@ -14,20 +20,22 @@ class Card {
         return cardElement;
     };
 
-    _handleCardLike() {
-        this._likeButton.classList.toggle("card__like_active");
-    };
 
-    _handleCardRemove() {
-        this._element.remove();
-    };
+    _handleLiked() {
+        if (this.isLiked()) {
+            this._likeButton.classList.add("card__like_active")
+        }
+    }
+    isLiked() {
+        return this._likes.some(like => like._id === this._userId)
+    }
 
     _setEventListeners() {
         this._likeButton.addEventListener('click', () => {
             this._handleCardLike();
         });
-        this._element.querySelector(".card__delete-btn").addEventListener('click', () => {
-            this._handleCardRemove();
+        this._deleteButton.addEventListener('click', () => {
+            this._handleCardRemove(this._id);
         });
         this._cardImage.addEventListener('click', () => {
             this._handleShowPhoto(this._link, this._name);
@@ -38,9 +46,14 @@ class Card {
         this._element = this._getTemplate();
         this._cardImage = this._element.querySelector(".card__photo");
         this._likeButton = this._element.querySelector(".card__like");
+        this._deleteButton = this._element.querySelector(".card__delete-btn")
+        this._likeNumber =  this._element.querySelector(".card__like-number")
         this._cardImage.src = this._link;
         this._cardImage.alt = this._name;
         this._element.querySelector(".card__title").textContent = this._name;
+        if(this._owner._id === this._userId) {
+            this._deleteButton.classList.add("card__delete-btn_disabled")
+        }
         this._setEventListeners();
         return this._element;
     };

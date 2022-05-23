@@ -23,7 +23,7 @@ class Api {
             headers:this._headers,
             body: JSON.stringify({
                 name: data.name,
-                info: data.info,
+                about: data.about,
             })
         }).then(this._checkResponse);
     }
@@ -56,14 +56,14 @@ class Api {
         }).then(this._checkResponse);
     }
 
-    addLike(id) {
+    addLike(cardId) {
         return fetch(`${this._url}/cards/likes/${id}`, {
             method:"PUT",
             headers:this._headers,
         }).then(this._checkResponse);
     }
 
-    deleteLike(id) {
+    deleteLike(cardId) {
         return fetch(`${this._url}/cards/${id}/likes`, {
             method:"DELETE",
             headers:this._headers,

@@ -6,6 +6,7 @@ export const profileJob = document.querySelector(".profile__job");
 export const avatarProfile = document.querySelector(".profile__avatar")
 export const popupDeleteSelector = ".popup_type_delete"
 export const popupAvatarSelector = ".popup_type_avatar"
+
 export const buttonAvatar = document.querySelector(".profile__avatar-button")
 //Объявление переменных Popup view photo
 export const popupPreviewSelector = ".popup_type_modal";
