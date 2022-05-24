@@ -34,7 +34,7 @@ const api = new Api({
 });
 
 const formValidators = {}
-const userId = {}
+const userId = "1aaf72bde321c47c2263d8f2"
 const enableValidation = (config) => {
     const formList = Array.from(document.querySelectorAll(config.formSelector))
     formList.forEach((formElement) => {
@@ -47,6 +47,16 @@ const enableValidation = (config) => {
 enableValidation(config)
 
 function renderCard(item) {
+    const popupConform = new PopupWithConform(popupDeleteSelector,popupCallBack)
+    popupConform.setEventListeners()
+    const popupCallBack = () => {
+        api.deleteCard(item._id)
+            .then(() => {
+                card.deleteCard()
+                popupConform.close()
+            })
+            .catch(err => console.log(err))
+    }
     const card = new Card({
         data:item,
         userId: userId,
@@ -55,15 +65,23 @@ function renderCard(item) {
             imagePopup.open(item.link,item.name)
         },
         handleCardRemove:() => {
-            api.deleteCard(item._id)
-                .then(() => {
-                    popupConform.open()
-                    card.deleteCard()
-                    popupConform.close()
-                })
-                .catch(err => console.log(err))
+            popupConform.open()
+
         },
-        handleCardLike: () => {
+        handleCardLike: (cardId) => {
+            if (item.isLiked()) {
+                api.deleteLike(cardId)
+                    .then((res) => {
+                        item.updateLikes(res)
+                    })
+                    .catch(err => console.log(err));
+            } else {
+                api.addLike(cardId)
+                    .then((res) => {
+                        item.updateLikes(res)
+                    })
+                    .catch(err => console.log(err));
+            }
         },
     })
     return card.generateCard();
@@ -81,9 +99,6 @@ const userInfo = new UserInfo({
     infoElement: profileJob,
     avatarElement: avatarProfile
 });
-
-const popupConform = new PopupWithConform(popupDeleteSelector)
-popupConform.setEventListeners()
 
 const profilePopup = new PopupWithForm(popupProfileSelector, item => {
     profilePopup.renderLoading(true)

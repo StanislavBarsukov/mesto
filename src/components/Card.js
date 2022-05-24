@@ -29,7 +29,11 @@ class Card {
     isLiked() {
         return this._likes.some(like => like._id === this._userId)
     }
-
+    updateLikes(data) {
+        this._likeButton.classList.toggle('card__like_active')
+        this._likeNumber.textContent = data.likes.length
+        this._likes = data.likes
+    }
     _setEventListeners() {
         this._likeButton.addEventListener('click', () => {
             this._handleCardLike();
@@ -48,12 +52,16 @@ class Card {
         this._likeButton = this._element.querySelector(".card__like");
         this._deleteButton = this._element.querySelector(".card__delete-btn")
         this._likeNumber =  this._element.querySelector(".card__like-number")
+        this._likeNumber.textContent = this._likes.length
         this._cardImage.src = this._link;
         this._cardImage.alt = this._name;
+
         this._element.querySelector(".card__title").textContent = this._name;
-        if(this._owner._id === this._userId) {
-            this._deleteButton.classList.add("card__delete-btn_disabled")
+        console.log(this._owner._id)
+        if(this._owner._id !== this._userId) {
+            this._deleteButton.classList.add("card__delete-btn_disabled");
         }
+        this._handleLiked()
         this._setEventListeners();
         return this._element;
     };
