@@ -15,7 +15,7 @@ class PopupWithForm extends Popup {
     }
     setEventListeners() {
         super.setEventListeners()
-        this._form.addEventListener("submit", e => {
+        this._form.addEventListener("submit", (e) => {
             e.preventDefault();
             this._submitCallback(this._getInputValues())
         })
@@ -26,7 +26,7 @@ class PopupWithForm extends Popup {
     }
     renderLoading(isLoading) {
         if (isLoading) {
-            this._button.textContent = 'Сохранение...'
+            this._button.textContent = "Сохранение..."
         } else {
             this._button.textContent = this._buttonText
         }

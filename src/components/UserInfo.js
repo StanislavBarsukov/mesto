@@ -13,6 +13,7 @@ class UserInfo {
 
         }
     }
+
     setUserInfo(data) {
         this._nameElement.textContent = data.name;
         this._infoElement.textContent = data.about;

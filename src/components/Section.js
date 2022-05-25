@@ -9,6 +9,7 @@ class Section {
             this._renderer(item);
         })
     }
+
     addItem(item) {
         this._container.prepend(item);
     }

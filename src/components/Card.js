@@ -1,5 +1,5 @@
 class Card {
-    constructor({data, userId, cardSelector,handleShowPhoto,handleCardRemove,handleCardLike}) {
+    constructor({data, userId, cardSelector, handleShowPhoto, handleCardRemove, handleCardAddLike, handleCardRemoveLike}) {
         this._name = data.name;
         this._link = data.link;
         this._likes = data.likes;
@@ -9,7 +9,8 @@ class Card {
         this._cardSelector = cardSelector;
         this._handleShowPhoto =  handleShowPhoto;
         this._handleCardRemove = handleCardRemove;
-        this._handleCardLike = handleCardLike;
+        this._handleCardAddLike = handleCardAddLike;
+        this._handleCardRemoveLike = handleCardRemoveLike;
     };
 
     _getTemplate() {
@@ -41,17 +42,23 @@ class Card {
     handleLikesCard(data) {
         this._likes = data.likes;
         this._likeNumber.textContent = this._likes.length;
-        this._likeButton.classList.toggle('card__like_active');
+        this._likeButton.classList.toggle("card__like_active");
     };
 
     _setEventListeners() {
-        this._likeButton.addEventListener('click', () => {
-            this._handleCardLike(this._id);
+        this._likeButton.addEventListener("click", () => {
+          if (this._likeButton.classList.contains("card__like_active")) {
+              this._handleCardRemoveLike(this._id);
+          }else{
+              this._handleCardAddLike(this._id);
+          }
         });
-        this._deleteButton.addEventListener('click', () => {
+
+        this._deleteButton.addEventListener("click", () => {
             this._handleCardRemove(this._id);
         });
-        this._cardImage.addEventListener('click', () => {
+
+        this._cardImage.addEventListener("click", () => {
             this._handleShowPhoto(this._link, this._name);
         });
     };
@@ -60,15 +67,15 @@ class Card {
         this._element = this._getTemplate();
         this._cardImage = this._element.querySelector(".card__photo");
         this._likeButton = this._element.querySelector(".card__like");
-        this._deleteButton = this._element.querySelector(".card__delete-btn")
-        this._likeNumber =  this._element.querySelector(".card__like-number")
-        this._likeNumber.textContent = this._likes.length
+        this._deleteButton = this._element.querySelector(".card__delete-btn");
+        this._likeNumber =  this._element.querySelector(".card__like-number");
+        this._likeNumber.textContent = this._likes.length;
         this._cardImage.src = this._link;
         this._cardImage.alt = this._name;
         this._element.querySelector(".card__title").textContent = this._name;
 
-        this._deleteCard()
-        this._handleLiked()
+        this._handleLiked();
+        this._deleteCard();
         this._setEventListeners();
 
         return this._element;
