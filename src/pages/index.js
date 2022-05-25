@@ -60,9 +60,9 @@ function renderCard(item) {
             imagePopup.open(item.link,item.name)
         },
         handleCardRemove:(cardId) => {
-            popupConform.deleteLoading(true)
             popupConform.open()
             popupConform.submitCallback(() =>{
+                popupConform.deleteLoading(true)
                 api.deleteCard(cardId)
                     .then(() => {
                         popupConform.close()
