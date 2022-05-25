@@ -11,6 +11,7 @@ class Card {
         this._handleCardRemove = handleCardRemove;
         this._handleCardLike = handleCardLike;
     };
+
     _getTemplate() {
         const cardElement = document
             .querySelector(this._cardSelector)
@@ -23,20 +24,29 @@ class Card {
 
     _handleLiked() {
         if (this.isLiked()) {
-            this._likeButton.classList.add("card__like_active")
+            this._likeButton.classList.add("card__like_active");
         }
-    }
+    };
+
     isLiked() {
-        return this._likes.some(like => like._id === this._userId)
-    }
-    updateLikes(data) {
-        this._likeButton.classList.toggle('card__like_active')
-        this._likeNumber.textContent = data.likes.length
-        this._likes = data.likes
-    }
+        return this._likes.some(like => like._id === this._userId);
+    };
+
+    _deleteCard(){
+        if(this._owner._id !== this._userId) {
+            this._deleteButton.remove();
+        }
+    };
+
+    handleLikesCard(data) {
+        this._likes = data.likes;
+        this._likeNumber.textContent = this._likes.length;
+        this._likeButton.classList.toggle('card__like_active');
+    };
+
     _setEventListeners() {
         this._likeButton.addEventListener('click', () => {
-            this._handleCardLike();
+            this._handleCardLike(this._id);
         });
         this._deleteButton.addEventListener('click', () => {
             this._handleCardRemove(this._id);
@@ -55,19 +65,18 @@ class Card {
         this._likeNumber.textContent = this._likes.length
         this._cardImage.src = this._link;
         this._cardImage.alt = this._name;
-
         this._element.querySelector(".card__title").textContent = this._name;
-        console.log(this._owner._id)
-        if(this._owner._id !== this._userId) {
-            this._deleteButton.classList.add("card__delete-btn_disabled");
-        }
+
+        this._deleteCard()
         this._handleLiked()
         this._setEventListeners();
+
         return this._element;
     };
+
     deleteCard() {
         this._element.remove()
-    }
+    };
 }
 export default Card
 

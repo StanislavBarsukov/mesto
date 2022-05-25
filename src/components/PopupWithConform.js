@@ -1,19 +1,20 @@
 import Popup from "./Popup.js";
 class PopupWithConform extends Popup {
-    constructor(popupSelector, submitCallback) {
+    constructor(popupSelector) {
         super(popupSelector);
-        this._button = this._popup.querySelector(".popup__save_conform")
-        this._submitCallback = submitCallback;
+        this._button = this._popup.querySelector(".popup__save_conform");
     }
+
+    submitCallback(item) {
+       this._submitCallback = item
+    };
+
     setEventListeners() {
-        super.setEventListeners()
-        this._button.addEventListener("submit", e => {
+        super.setEventListeners();
+        this._button.addEventListener("click", (e) => {
             e.preventDefault();
-            this._submitCallback(this._target)
+            this._submitCallback()
         })
-    }
-    setTarget(target) {
-        this._target = target;
-    }
+    };
 }
 export default PopupWithConform

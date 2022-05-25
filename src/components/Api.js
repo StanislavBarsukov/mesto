@@ -11,23 +11,6 @@ class Api {
         }).then(this._checkResponse);
     }
 
-    getInitialUser() {
-        return fetch(`${this._url}/users/me`, {
-            method:"GET",
-            headers:this._headers
-        }).then(this._checkResponse);
-    }
-    getUpdateUser(data) {
-        return fetch(`${this._url}/users/me`, {
-            method:"PATCH",
-            headers:this._headers,
-            body: JSON.stringify({
-                name: data.name,
-                about: data.about,
-            })
-        }).then(this._checkResponse);
-    }
-
     getUpdateCard(data) {
         return fetch(`${this._url}/cards`, {
             method:"POST",
@@ -35,6 +18,24 @@ class Api {
             body: JSON.stringify({
                 name:data.name,
                 link:data.link
+            })
+        }).then(this._checkResponse);
+    }
+
+    getInitialUser() {
+        return fetch(`${this._url}/users/me`, {
+            method:"GET",
+            headers:this._headers
+        }).then(this._checkResponse);
+    }
+
+    getUpdateUser(data) {
+        return fetch(`${this._url}/users/me`, {
+            method:"PATCH",
+            headers:this._headers,
+            body: JSON.stringify({
+                name: data.name,
+                about: data.about,
             })
         }).then(this._checkResponse);
     }
@@ -49,22 +50,22 @@ class Api {
         }).then(this._checkResponse);
     }
 
-    deleteCard(id) {
-        return fetch(`${this._url}/cards/${id}`, {
+    deleteCard(cardId){
+        return fetch(`${this._url}/cards/${cardId}`, {
             method:"DELETE",
             headers:this._headers,
         }).then(this._checkResponse);
     }
 
     addLike(cardId) {
-        return fetch(`${this._url}/cards/likes/${id}`, {
+        return fetch(`${this._url}/cards/likes/${cardId}`, {
             method:"PUT",
             headers:this._headers,
         }).then(this._checkResponse);
     }
 
     deleteLike(cardId) {
-        return fetch(`${this._url}/cards/${id}/likes`, {
+        return fetch(`${this._url}/cards/${cardId}/likes`, {
             method:"DELETE",
             headers:this._headers,
         }).then(this._checkResponse);

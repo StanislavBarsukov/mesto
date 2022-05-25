@@ -33,8 +33,9 @@ const api = new Api({
     }
 });
 
+let userId;
 const formValidators = {}
-const userId = "1aaf72bde321c47c2263d8f2"
+
 const enableValidation = (config) => {
     const formList = Array.from(document.querySelectorAll(config.formSelector))
     formList.forEach((formElement) => {
@@ -47,16 +48,6 @@ const enableValidation = (config) => {
 enableValidation(config)
 
 function renderCard(item) {
-    const popupConform = new PopupWithConform(popupDeleteSelector,popupCallBack)
-    popupConform.setEventListeners()
-    const popupCallBack = () => {
-        api.deleteCard(item._id)
-            .then(() => {
-                card.deleteCard()
-                popupConform.close()
-            })
-            .catch(err => console.log(err))
-    }
     const card = new Card({
         data:item,
         userId: userId,
@@ -64,35 +55,47 @@ function renderCard(item) {
         handleShowPhoto: () => {
             imagePopup.open(item.link,item.name)
         },
-        handleCardRemove:() => {
+        handleCardRemove:(cardId) => {
             popupConform.open()
-
+            popupConform.submitCallback(() =>{
+                api.deleteCard(cardId)
+                    .then(() => {
+                        popupConform.close()
+                        card.deleteCard()
+                    })
+                    .catch((err) => {
+                        console.log(`Ошибка: ${err}`)
+                    })
+                })
         },
         handleCardLike: (cardId) => {
-            if (item.isLiked()) {
+            if (card.isLiked()) {
                 api.deleteLike(cardId)
                     .then((res) => {
-                        item.updateLikes(res)
+                        card.handleLikesCard(res)
                     })
                     .catch(err => console.log(err));
             } else {
                 api.addLike(cardId)
                     .then((res) => {
-                        item.updateLikes(res)
+                        card.handleLikesCard(res)
                     })
                     .catch(err => console.log(err));
             }
         },
     })
-    return card.generateCard();
+    const newCard = card.generateCard();
+    return newCard
 }
-
 const cardSection = new Section({
-    renderer: (item) => {
-        cardSection.addItem(renderCard(item))
-    }
+    renderer: (card) => {
+        cardSection.addItem(renderCard(card)
+        )}
     },
     cardContainer);
+
+const popupConform = new PopupWithConform(popupDeleteSelector)
+popupConform.setEventListeners()
 
 const userInfo = new UserInfo({
     nameElement: profileName,
@@ -160,13 +163,12 @@ profileButtonEdit.addEventListener("click", () => {
     infoInput.value = about;
     profilePopup.open()
 });
-Promise.all([
-    api.getInitialCards(),
-    api.getInitialUser()
-]).then(res => {
-        userInfo.getUserInfo()
-        cardSection.renderItems(res[0]);
+Promise.all([api.getInitialCards(), api.getInitialUser()])
+    .then(([card, userData]) => {
+        userInfo.setUserInfo(userData);
+        userId = userData._id;
+        cardSection.renderItems(card);
     })
     .catch((err) => {
-        console.log(err);
+        console.log(`Ошибка: ${err}`);
     });
