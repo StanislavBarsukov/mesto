@@ -184,9 +184,9 @@ profileButtonEdit.addEventListener("click", () => {
 
 Promise.all([api.getInitialCards(), api.getInitialUser()])
     .then(([card, userData]) => {
+        userId = userData._id;
         userInfo.setUserInfo(userData);
         cardSection.renderItems(card);
-        userId = userData._id;
     })
     .catch((err) => {
         console.log(`Ошибка: ${err}`);
