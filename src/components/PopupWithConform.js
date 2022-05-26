@@ -6,8 +6,8 @@ class PopupWithConform extends Popup {
         this._buttonText = this._button.textContent;
     }
 
-    submitCallback(item) {
-       this._submitCallback = item
+    submitCallback(action) {
+       this._submitCallback = action
     };
 
     setEventListeners() {
